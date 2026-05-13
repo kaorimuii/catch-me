@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch Me...</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            background-color: #ffffff;
+            /* Center the image initially */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #target {
+            position: relative; /* Centers via Flexbox initially */
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 10;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Your target image -->
+    <img id="target" src="https://i.pinimg.com/736x/df/30/ff/df30ff944a3ea994f957aa7a3add5517.jpg" alt="Click Me">
+
+    <!-- The Hidden Audio -->
+    <audio id="rick-audio" src="rick.mp3" preload="auto"></audio>
+
+    <script>
+        const target = document.getElementById('target');
+        const audio = document.getElementById('rick-audio');
+        let isAbsolute = false;
+
+        function teleport() {
+            // Switch to absolute positioning on the first teleport
+            if (!isAbsolute) {
+                target.style.position = 'absolute';
+                isAbsolute = true;
+            }
+
+            const maxX = window.innerWidth - target.clientWidth;
+            const maxY = window.innerHeight - target.clientHeight;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            target.style.left = randomX + 'px';
+            target.style.top = randomY + 'px';
+        }
+
+        target.addEventListener('mousedown', function() {
+            // 1% chance
+            if (Math.random() < 0.1) {
+                audio.play();
+                target.style.display = 'none'; // Target vanishes when "caught"
+            } else {
+                teleport();
+            }
+        });
+    </script>
+</body>
+</html>
